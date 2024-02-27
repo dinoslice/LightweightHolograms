@@ -1,0 +1,4 @@
+name: LightweightHolograms
+version: '${project.version}'
+main: me.mskatking.lightweightholograms.LightweightHolograms
+api-version: '1.15.1-R0.1'
