@@ -4,85 +4,93 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class Hologram implements ConfigurationSerializable {
+public class Hologram {
 
-    ArmorStand summonedEntity;
+    ArmorStand summonedEntities;
+    int lines = 1;
 
-    public Hologram(Player p, Component n) {
-        summonedEntity = (ArmorStand) p.getWorld().spawnEntity(p.getLocation(), EntityType.ARMOR_STAND);
-        summonedEntity.customName(n);
-        summonedEntity.setCustomNameVisible(true);
-        summonedEntity.setArms(false);
-        summonedEntity.setAI(false);
-        summonedEntity.setBasePlate(false);
-        summonedEntity.setSmall(true);
-        summonedEntity.setSilent(true);
-        summonedEntity.setHealth(0.1);
-        summonedEntity.setInvisible(true);
-        summonedEntity.setInvulnerable(true);
-        summonedEntity.setCanTick(false);
-        summonedEntity.setDisabledSlots(EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HAND, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.OFF_HAND);
-        summonedEntity.setCanMove(false);
-        summonedEntity.setCanTick(false);
-        summonedEntity.setGlowing(false);
-        summonedEntity.setMarker(true);
-        summonedEntity.getPersistentDataContainer().set(new NamespacedKey(LightweightHolograms.plugin, "persistent"), PersistentDataType.BYTE, (byte) 1);
+    public Hologram(Location l, Component n) {
+        summonedEntities = (ArmorStand) l.getWorld().spawnEntity(l, EntityType.ARMOR_STAND);
+        summonedEntities.customName(n);
+        summonedEntities.setCustomNameVisible(true);
+        summonedEntities.setArms(false);
+        summonedEntities.setAI(false);
+        summonedEntities.setBasePlate(false);
+        summonedEntities.setSmall(true);
+        summonedEntities.setSilent(true);
+        summonedEntities.setHealth(0.1);
+        summonedEntities.setInvisible(true);
+        summonedEntities.setInvulnerable(true);
+        summonedEntities.setCanTick(false);
+        summonedEntities.setDisabledSlots(EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HAND, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.OFF_HAND);
+        summonedEntities.setCanMove(false);
+        summonedEntities.setCanTick(false);
+        summonedEntities.setGlowing(false);
+        summonedEntities.setMarker(true);
+        summonedEntities.getPersistentDataContainer().set(new NamespacedKey(LightweightHolograms.plugin, "persistent"), PersistentDataType.BYTE, (byte) 1);
     }
 
     public Hologram(Map<String, Object> datain) {
-        summonedEntity = (ArmorStand) Location.deserialize((Map<String, Object>) datain.get("location")).getWorld().spawnEntity(Location.deserialize((Map<String, Object>) datain.get("location")), EntityType.ARMOR_STAND);
-        summonedEntity.customName(MiniMessage.miniMessage().deserialize((String) datain.get("component")));
-        summonedEntity.setCustomNameVisible(true);
-        summonedEntity.setArms(false);
-        summonedEntity.setAI(false);
-        summonedEntity.setBasePlate(false);
-        summonedEntity.setSmall(true);
-        summonedEntity.setSilent(true);
-        summonedEntity.setHealth(0.1);
-        summonedEntity.setInvisible(true);
-        summonedEntity.setInvulnerable(true);
-        summonedEntity.setCanTick(false);
-        summonedEntity.setDisabledSlots(EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HAND, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.OFF_HAND);
-        summonedEntity.setCanMove(false);
-        summonedEntity.setCanTick(false);
-        summonedEntity.setGlowing(false);
-        summonedEntity.setMarker(true);
-        summonedEntity.getPersistentDataContainer().set(new NamespacedKey(LightweightHolograms.plugin, "persistent"), PersistentDataType.BYTE, (byte) 1);
+        Location loc = Location.deserialize((Map<String, Object>) datain.get("location"));
+        summonedEntities = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
+        summonedEntities.customName(MiniMessage.miniMessage().deserialize(((String) datain.get("component"))));
+        summonedEntities.setCustomNameVisible(true);
+        summonedEntities.setArms(false);
+        summonedEntities.setAI(false);
+        summonedEntities.setBasePlate(false);
+        summonedEntities.setSmall(true);
+        summonedEntities.setSilent(true);
+        summonedEntities.setHealth(0.1);
+        summonedEntities.setInvisible(true);
+        summonedEntities.setInvulnerable(true);
+        summonedEntities.setCanTick(false);
+        summonedEntities.setDisabledSlots(EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HAND, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.OFF_HAND);
+        summonedEntities.setCanMove(false);
+        summonedEntities.setCanTick(false);
+        summonedEntities.setGlowing(false);
+        summonedEntities.setMarker(true);
+        summonedEntities.getPersistentDataContainer().set(new NamespacedKey(LightweightHolograms.plugin, "persistent"), PersistentDataType.BYTE, (byte) 1);
+    }
+
+    public void addLine(Component c) {
+        LightweightHolograms.holograms.add(new Hologram(getNextLineLocation(), c));
+        lines++;
     }
 
     public void destructor() {
-        summonedEntity.remove();
-        summonedEntity = null;
+        summonedEntities.remove();
+        summonedEntities = null;
     }
 
     public void setName(Component n) {
-        this.summonedEntity.customName(n);
+        this.summonedEntities.customName(n);
     }
 
     public void moveHere(Location loc) {
-        this.summonedEntity.teleport(loc);
+        this.summonedEntities.teleport(loc);
     }
 
     public Location getLocation() {
-        return this.summonedEntity.getLocation();
+        return this.summonedEntities.getLocation();
     }
 
     public String getName() {
-        return MiniMessage.miniMessage().serialize(this.summonedEntity.customName());
+        return MiniMessage.miniMessage().serialize(this.summonedEntities.customName());
     }
 
-    @Override
+    private Location getNextLineLocation() {
+        return new Location(summonedEntities.getWorld(), summonedEntities.getLocation().getX(), summonedEntities.getLocation().getY() - (0.3 * lines), summonedEntities.getLocation().getZ());
+    }
+
     public @NotNull Map<String, Object> serialize() {
-        return Map.of("component", MiniMessage.miniMessage().serialize(summonedEntity.customName()), "location", summonedEntity.getLocation().serialize());
+        return Map.of("component", MiniMessage.miniMessage().serialize(summonedEntities.customName()), "location", summonedEntities.getLocation().serialize());
     }
 }

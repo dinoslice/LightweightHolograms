@@ -1,6 +1,5 @@
 package me.mskatking.lightweightholograms;
 
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ public final class LightweightHolograms extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        ConfigurationSerialization.registerClass(Hologram.class);
-
         plugin = this;
 
         getLogger().log(Level.INFO, "Attempting to load holograms from the config.");

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HologramCommand extends Command {
 
-    List<String> operations = List.of("create", "edittext", "movehere", "delete", "list");
+    List<String> operations = List.of("create", "edittext", "movehere", "delete", "list", "addline");
 
     public HologramCommand() {
         super("holograms", "The command for creating and managing holograms.", "/hologram <operation> <id> [text]", List.of("hg", "holo"));
@@ -33,10 +33,10 @@ public class HologramCommand extends Command {
                         }
                         text = text.substring(0, text.length() - 1);
                         if(Arrays.stream(args).toList().contains("--nominimessage")) {
-                            LightweightHolograms.holograms.add(new Hologram(p, LegacyComponentSerializer.legacyAmpersand().deserialize(text)));
+                            LightweightHolograms.holograms.add(new Hologram(p.getLocation(), LegacyComponentSerializer.legacyAmpersand().deserialize(text)));
                             p.sendMessage(Component.text("Warning! The old chat formatting in outdated! Please consider learning mini message!", NamedTextColor.YELLOW));
                         } else {
-                            LightweightHolograms.holograms.add(new Hologram(p, MiniMessage.miniMessage().deserialize(text)));
+                            LightweightHolograms.holograms.add(new Hologram(p.getLocation(), MiniMessage.miniMessage().deserialize(text)));
                         }
                         p.sendMessage(Component.text("Successfully created a hologram!", NamedTextColor.GREEN));
                         return true;
@@ -89,6 +89,31 @@ public class HologramCommand extends Command {
                         }
                         return true;
                     }
+                    case "addline": {
+                        if (args.length >= 3) {
+                            String text = "";
+                            for (int i = 2; i < args.length; i++) {
+                                if(!args[i].equals("--nominimessage")) text += args[i] + " ";
+                            }
+                            text = text.substring(0, text.length() - 1);
+                            try {
+                                if (Arrays.stream(args).toList().contains("--nominimessage")) {
+                                    LightweightHolograms.holograms.get(Integer.parseInt(args[1])).addLine(LegacyComponentSerializer.legacyAmpersand().deserialize(text));
+                                    p.sendMessage(Component.text("Warning! The old chat formatting in outdated! Please consider learning mini message!", NamedTextColor.YELLOW));
+                                } else {
+                                    LightweightHolograms.holograms.get(Integer.parseInt(args[1])).addLine(MiniMessage.miniMessage().deserialize(text));
+                                }
+                                p.sendMessage(Component.text("Successfully added a new line to hologram " + args[1] + "!", NamedTextColor.GREEN));
+                            } catch(NumberFormatException ignored) {
+                                p.sendMessage(Component.text("\"" + args[1] + "\" is not a number!", NamedTextColor.RED));
+                            } catch(IndexOutOfBoundsException ignored) {
+                                p.sendMessage(Component.text("\"" + args[1] + "\" is not a valid hologram!", NamedTextColor.RED));
+                            }
+                        } else {
+                            p.sendMessage(Component.text("Not enough arguments!", NamedTextColor.RED));
+                        }
+                        return true;
+                    }
                     default: {
                         p.sendMessage(Component.text("\"" + args[0] + "\" is not a valid argument!", NamedTextColor.RED));
                     }
@@ -115,6 +140,7 @@ public class HologramCommand extends Command {
                 switch(args[0]) {
                     case "edittext":
                     case "movehere":
+                    case "addline":
                     case "delete": {
                         List<String> out = new ArrayList<>();
                         for(int i = 0; i < LightweightHolograms.holograms.size(); i++) out.add(String.valueOf(i));
@@ -126,6 +152,7 @@ public class HologramCommand extends Command {
             }
             case 3: {
                 switch(args[0]) {
+                    case "addline":
                     case "edittext": return List.of("<place text here>");
                     default: return List.of();
                 }
