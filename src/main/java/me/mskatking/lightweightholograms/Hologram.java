@@ -32,7 +32,6 @@ public class Hologram {
         summonedEntities.setCanTick(false);
         summonedEntities.setDisabledSlots(EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HAND, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.OFF_HAND);
         summonedEntities.setCanMove(false);
-        summonedEntities.setCanTick(false);
         summonedEntities.setGlowing(false);
         summonedEntities.setMarker(true);
         summonedEntities.getPersistentDataContainer().set(new NamespacedKey(LightweightHolograms.plugin, "persistent"), PersistentDataType.BYTE, (byte) 1);
@@ -54,7 +53,6 @@ public class Hologram {
         summonedEntities.setCanTick(false);
         summonedEntities.setDisabledSlots(EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HAND, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.OFF_HAND);
         summonedEntities.setCanMove(false);
-        summonedEntities.setCanTick(false);
         summonedEntities.setGlowing(false);
         summonedEntities.setMarker(true);
         summonedEntities.getPersistentDataContainer().set(new NamespacedKey(LightweightHolograms.plugin, "persistent"), PersistentDataType.BYTE, (byte) 1);

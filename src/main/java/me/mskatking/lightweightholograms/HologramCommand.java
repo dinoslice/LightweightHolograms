@@ -24,6 +24,9 @@ public class HologramCommand extends Command {
     @Override
     public boolean execute(@NotNull CommandSender commandSender, @NotNull String s, @NotNull String[] args) {
         if(commandSender instanceof Player p) {
+            if(!p.hasPermission("holograms.command")) {
+                p.sendMessage(Component.text("You don't have permission to use this command!", NamedTextColor.RED));
+            }
             if(args.length >= 2) {
                 switch (args[0]) {
                     case "create": {
@@ -134,6 +137,7 @@ public class HologramCommand extends Command {
 
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        if(!sender.hasPermission("holograms.command")) return List.of();
         switch(args.length) {
             case 1: return operations.stream().filter(i -> i.startsWith(args[0])).toList();
             case 2: {
