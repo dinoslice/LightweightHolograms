@@ -9,7 +9,7 @@ The command list is this:
 
 `/holo <operation>`
 
-There are five operations, `create`, `edittext`, `movehere`, `delete`, and `list`.
+There are five operations, `create`, `edittext`, `movehere`, `delete`, `addline`, and `list`.
 
 After you enter the operation, there are a few more steps depending on the operation you selected.
 
@@ -18,6 +18,8 @@ For `create`, all you need to do is type the text in the hologram. Normally, thi
 For `edittext`, you must first enter the id of the hologram. You can find this by running the `list` operation. After the id, you put the text you want to replace it with, following the same format as `create`.
 
 For `movehere`, you only need to enter the id of the hologram you wish to move, which can be found with the `list` operation.
+
+`addLine` just adds a new line to the selected hologram. For simplicity's sake, all this does is create a new hologram underneath the existing one with the given text. One quirk with this is that when the server is restarted, you have to add lines to the bottom line in the chain, the top one will overlap. To delete a line, just delete the hologram. It will show up in the `holo list` operation.
 
 Finally, `delete`, you also only need to enter the id of the hologram, which, once again, can be found with `list`.
 
