@@ -38,24 +38,8 @@ public class Hologram {
     }
 
     public Hologram(Map<String, Object> datain) {
-        Location loc = Location.deserialize((Map<String, Object>) datain.get("location"));
-        summonedEntities = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-        summonedEntities.customName(MiniMessage.miniMessage().deserialize(((String) datain.get("component"))));
-        summonedEntities.setCustomNameVisible(true);
-        summonedEntities.setArms(false);
-        summonedEntities.setAI(false);
-        summonedEntities.setBasePlate(false);
-        summonedEntities.setSmall(true);
-        summonedEntities.setSilent(true);
-        summonedEntities.setHealth(0.1);
-        summonedEntities.setInvisible(true);
-        summonedEntities.setInvulnerable(true);
-        summonedEntities.setCanTick(false);
-        summonedEntities.setDisabledSlots(EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HAND, EquipmentSlot.LEGS, EquipmentSlot.HEAD, EquipmentSlot.OFF_HAND);
-        summonedEntities.setCanMove(false);
-        summonedEntities.setGlowing(false);
-        summonedEntities.setMarker(true);
-        summonedEntities.getPersistentDataContainer().set(new NamespacedKey(LightweightHolograms.plugin, "persistent"), PersistentDataType.BYTE, (byte) 1);
+        this(Location.deserialize((Map<String, Object>) datain.get("location")), MiniMessage.miniMessage().deserialize(((String) datain.get("component"))));
+        lines = datain.containsKey("lines") ? (int) datain.get("lines") : 0;
     }
 
     public void addLine(Component c) {
@@ -89,6 +73,6 @@ public class Hologram {
     }
 
     public @NotNull Map<String, Object> serialize() {
-        return Map.of("component", MiniMessage.miniMessage().serialize(summonedEntities.customName()), "location", summonedEntities.getLocation().serialize());
+        return Map.of("lines", this.lines, "component", MiniMessage.miniMessage().serialize(this.summonedEntities.customName()), "location", this.summonedEntities.getLocation().serialize());
     }
 }
