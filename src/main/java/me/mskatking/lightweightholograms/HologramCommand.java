@@ -23,7 +23,8 @@ public class HologramCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender commandSender, @NotNull String s, @NotNull String[] args) {
-        if(commandSender instanceof Player p) {
+        if(commandSender instanceof Player) {
+            Player p = (Player) commandSender;
             if(!p.hasPermission("holograms.command") && !p.isOp()) {
                 p.sendMessage(LightweightHolograms.appendPluginPrefix(Component.text("You don't have permission to use this command!", NamedTextColor.RED)));
                 return true;
