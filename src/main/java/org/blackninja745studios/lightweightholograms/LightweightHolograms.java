@@ -1,11 +1,9 @@
-package me.mskatking.lightweightholograms;
+package org.blackninja745studios.lightweightholograms;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SingleLineChart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -51,9 +49,6 @@ public final class LightweightHolograms extends JavaPlugin implements Listener {
         getServer().getCommandMap().register("holograms", new HologramCommand());
 
         getServer().getPluginManager().registerEvents(this, this);
-
-        Metrics metrics = new Metrics(this, 21216);
-        metrics.addCustomChart(new SingleLineChart("servers_running", () -> 1));
 
         getLogger().log(Level.INFO, "Successfully loaded!");
 

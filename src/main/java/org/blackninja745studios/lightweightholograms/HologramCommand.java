@@ -1,4 +1,4 @@
-package me.mskatking.lightweightholograms;
+package org.blackninja745studios.lightweightholograms;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
